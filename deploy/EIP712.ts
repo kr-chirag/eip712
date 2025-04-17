@@ -2,18 +2,9 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 export default async (hre: HardhatRuntimeEnvironment) => {
     const { deployer } = await hre.getNamedAccounts();
-    const demo = await hre.deployments.deploy("AdminBox", {
+    const demo = await hre.deployments.deploy("EIP712", {
         from: deployer,
-        proxy: {
-            execute: {
-                init: {
-                    methodName: "initialize",
-                    args: [deployer, 11155111],
-                },
-            },
-            proxyContract: "OpenZeppelinTransparentProxy",
-        },
-        log: true,
+        args: [deployer, 11155111]
     });
-    console.log("AdminBox Deployed at:", demo.address, demo.newlyDeployed);
+    console.log("EIP712 Deployed at:", demo.address, demo.newlyDeployed);
 };
