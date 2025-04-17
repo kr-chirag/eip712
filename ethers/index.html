@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ERC20 Permit</title>
+    </head>
+    <body>
+        <script type="module">
+            const types = {
+                EIP712Domain: [
+                    { name: "name", type: "string" },
+                    { name: "version", type: "string" },
+                    { name: "chainId", type: "uint256" },
+                    { name: "verifyingContract", type: "address" },
+                ],
+                Message: [
+                    { name: "user", type: "address" },
+                    { name: "content", type: "string" },
+                ],
+            };
+
+            const domain = {
+                name: "Test",
+                version: "1",
+                chainId: 11155111,
+                verifyingContract: "0x729fB3d2598cBFA39F83b2891f0e988f9722b116",
+            };
+
+            const message = {
+                user: "0x729fB3d2598cBFA39F83b2891f0e988f9722b116",
+                content: "This is content..",
+            };
+
+            const msgParams = JSON.stringify({
+                domain,
+                types,
+                primaryType: "Message",
+                message,
+            });
+
+            const accounts = await window.ethereum.request({
+                method: "eth_requestAccounts",
+            });
+
+            async function sign() {
+                const signature = await window.ethereum.request({
+                    method: "eth_signTypedData_v4",
+                    params: [accounts[0], msgParams],
+                });
+            }
+            document.getElementById("signBtn").addEventListener("click", sign);
+        </script>
+        <button id="signBtn">sign</button>
+    </body>
+</html>
