@@ -1,1 +1,9 @@
-# Basic Hardhat Project Setup
+# EIP712
+
+### .env setup
+
+```
+INFURA_KEY
+ETHERSCAN_API_KEY
+DEPLOYER_KEY
+```
