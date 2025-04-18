@@ -6,7 +6,7 @@ import ABI_ERC20 from "./ABI_ERC20.json";
 
 const RPC = `https://sepolia.infura.io/v3/${process.env.INFURA_KEY}`;
 const PRIVATE_KEY = `${process.env.DEPLOYER_KEY}`;
-const ERC20_ADDRESS = "0x729fB3d2598cBFA39F83b2891f0e988f9722b116";
+const ERC20_ADDRESS = "0x3Cd209F3f01Da3D97A6422003ABE4C77aB975750";
 
 async function main() {
     const provider = new ethers.JsonRpcProvider(RPC);
