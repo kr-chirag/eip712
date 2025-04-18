@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-contract EIP712  {
+contract EIP712 is Initializable, OwnableUpgradeable {
     struct Account {
         string name;
         uint256 amount;
@@ -19,8 +21,17 @@ contract EIP712  {
     bytes32 public DOMAIN_SEPARATOR;
     string public version;
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
 
-    constructor(uint256 chainId, string memory version_)  {
+    function initialize(
+        address initialOwner,
+        uint256 chainId,
+        string memory version_
+    ) public initializer {
+        __Ownable_init(initialOwner);
         version = version_;
         DOMAIN_SEPARATOR = keccak256(
             abi.encode(

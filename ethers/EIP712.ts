@@ -15,7 +15,7 @@ async function main() {
         name: "EIP712",
         version: "1",
         chainId: 11155111,
-        verifyingContract: "0x81dF732e10acEE4c195ee2467Fe4A4423a15C993",
+        verifyingContract: "0x68C673c7d5D57F704e7BD1781505AbF9D8677c73",
     };
 
     const types = {
