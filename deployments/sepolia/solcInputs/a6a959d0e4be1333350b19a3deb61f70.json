@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/EIP712.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\n\ncontract EIP712  {\n    struct Account {\n        string name;\n        uint256 amount;\n    }\n\n    bytes32 public constant ACCOUNT_TYPEHASH =\n        keccak256(\"Account(string name,uint256 amount)\");\n    bytes32 public constant DOMAIN_TYPEHASH =\n        keccak256(\n            \"EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)\"\n        );\n    string public constant name = \"EIP712\";\n\n    bytes32 public DOMAIN_SEPARATOR;\n    string public version;\n\n\n    constructor(uint256 chainId, string memory version_)  {\n        version = version_;\n        DOMAIN_SEPARATOR = keccak256(\n            abi.encode(\n                DOMAIN_TYPEHASH,\n                keccak256(bytes(name)),\n                keccak256(bytes(version)),\n                chainId,\n                address(this)\n            )\n        );\n    }\n\n    function hashStruct(Account memory account) public pure returns (bytes32) {\n        return\n            keccak256(\n                abi.encode(\n                    ACCOUNT_TYPEHASH,\n                    keccak256(bytes(account.name)),\n                    account.amount\n                )\n            );\n    }\n\n    function recoverSigner(\n        Account memory account,\n        uint8 v,\n        bytes32 r,\n        bytes32 s\n    ) public view returns (address) {\n        bytes32 hash = hashStruct(account);\n        bytes32 hash2 = keccak256(\n            abi.encodePacked(\"\\x19\\x01\", DOMAIN_SEPARATOR, hash)\n        );\n        return ecrecover(hash2, v, r, s);\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "evmVersion": "paris",
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "storageLayout",
+          "devdoc",
+          "userdoc",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
